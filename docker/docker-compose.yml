@@ -1,0 +1,29 @@
+
+version: '2'
+
+# Init services
+services:
+  # Elasticsearch server configuration
+  elasticsearch:
+    build: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data:rw
+
+  # Kibana serveice configuration
+  kibana:
+    build: kibana
+    ports:
+      - "8889:5601"
+    depends_on:
+      - elasticsearch
+
+  # EOS logging server configuration
+  eos:
+    build: eos
+    ports:
+      - "8888:80"
+      - "8090:8090"
+      - "8087:8087/udp"
